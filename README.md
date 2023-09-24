@@ -11,5 +11,16 @@ Membuat aplikasi Todo List yang dapat:
 
 # Deskripsi Task
 # Cara Menggunakan Program
+
+1. Download/pull file repo ke dalam satu direktori lokal.
+2. Buka terminal dan sesuaikan lokasi direktori lokal.
+3. Jalankan flask --app app run di terminal untuk menjalankan aplikasi sebelum menginisiasi pembuatan database
+4. Setelah itu, tekan 'Ctrl + C' untuk berhenti menjalankan aplikasi
+5.  jalankan flask db init di terminal untuk menginisiasi pembuatan database.
+6. Kemudian jalankan perintah flask db migrate -m "initial database" untuk melakukan migrasi versi database
+7. Jalankan flask db upgrade agar database yang sebelumnya telah di migrasi, akan upgrade ke dalam versi terbaru
+8. Database dan aplikasi sudah siap digunakan
+
+   
 # Hasil test Case
 # Future Work
