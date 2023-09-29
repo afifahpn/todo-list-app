@@ -1,0 +1,33 @@
+{% extends '/auth/base.html' %}
+
+{% block content %}
+
+<section class="container w-50 bg-white rounded p-5">
+    <!-- toast section start -->
+  <div aria-live="polite" aria-atomic="true" class="bg-body-secondary position-relative bd-example-toasts rounded-3">
+    <div class="toast-container p-3" id="toastPlacement">
+      <div class="toast text-bg-danger" id="liveToastAdd">
+        <div class="toast-body" id="toast-body">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- toast section end -->  
+    <form id="form-login">
+          <h1 class="text-center">Login Page</h1>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="login-email">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="login-password">
+          </div>
+          <button type="submit" class="btn btn-primary w-100" id="btn-login">Login</button>
+          <a href="{{ url_for('frontend.register') }}">Daftar sekarang!</a>
+        </form>
+  </section>
+
+  <script src="{{ url_for('static', filename="js/script-login.js")}}"></script>
+
+{% endblock %}

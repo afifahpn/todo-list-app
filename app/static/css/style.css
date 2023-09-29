@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+.floating-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
