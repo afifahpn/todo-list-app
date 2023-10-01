@@ -34,6 +34,27 @@ Membuat aplikasi Todo List yang dapat:
 4. Database dan aplikasi sudah siap digunakan
 
 # Hasil test Case
+1. Halaman Login
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/b0420c8c-b97b-4efe-9c65-b5505d79cbaf)
+2. Halaman Home
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/6dcac616-2995-46d8-b20c-e7738bda7619)
+3. Menambahkan Task
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/1d91d71a-8c26-4895-9694-0316a69c10a8)
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/f0597a82-5f1c-4ab6-931a-7819338cd6c6)
+4. Mengedit Task
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/ddc07d4c-ca4c-4ce9-9002-6a282609acc6)
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/03db2e74-5d6d-4257-9a6f-5d4221edd83b)
+5. menghapus Task
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/568fa4e7-7798-4965-bf76-6be5019fa0a2)
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/68f7ef14-683c-4349-aaf2-19bd3b1fc57c)
+6. Mengubah Status Task
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/4ddf1aab-3ba3-4b4e-b297-e5676ccc8e55)
+7. Menampilkan Task Berdasarkan Project
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/e6530746-6f30-49f8-9988-4330c537ddd0)
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/bb284fbc-2b7b-4555-a675-99785d6c0b06)
+
+
+
 
 
 # Future Work
