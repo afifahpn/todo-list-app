@@ -9,15 +9,9 @@ from app.models.task import Tasks
 @projectbp.route('/', methods=['GET'], strict_slashes = False)
 @jwt_required(locations=['headers'])
 def get_all_project():
-    limit = request.args.get('limit', 10)
     current_user_id = get_jwt_identity()
 
-    if type(limit) is not int:
-        return jsonify({
-            "message": "Invalid Parameter"
-        }), 400
-    
-    projects = Projects.query.filter_by(user_id=current_user_id)
+    projects = Projects.query.filter_by(user_id=current_user_id).order_by(Projects.project_id.desc())
 
     result = []
     for project in projects:
@@ -28,27 +22,34 @@ def get_all_project():
         "data": result
     }),200
 
+# get project by id
+@projectbp.route('<int:project_id>', methods=['GET'], strict_slashes = False)
+@jwt_required(locations=['headers'])
+def get_project_by_id(project_id):
+    current_user_id = get_jwt_identity()
+
+    projects = Projects.query.filter_by(project_id=project_id).first()
+
+    project =projects.serialize()
+
+    return jsonify({
+        "success": True,
+        "data": project
+    }),200
+
 # current_project
 @projectbp.route('/current_project', methods=['GET'], strict_slashes = False)
 @jwt_required(locations=['headers'])
 def current_project():
-    limit = request.args.get('limit', 1)
     current_user_id = get_jwt_identity()
-
-    if type(limit) is not int:
-        return jsonify({
-            "message": "Invalid Parameter"
-        }), 400
     
-    projects = Projects.query.filter_by(user_id=current_user_id).order_by(Projects.project_id.desc()).limit(limit)
+    projects = Projects.query.filter_by(user_id=current_user_id).order_by(Projects.project_id.desc()).first()
 
-    result = []
-    for project in projects:
-        result.append(project.serialize())
+    project =projects.serialize()
 
     return jsonify({
         "success": True,
-        "data": result
+        "data": project
     }),200
 
 # create project

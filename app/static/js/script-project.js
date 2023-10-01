@@ -68,8 +68,7 @@ function checkStatus(id){
     return xhr.send();
 }
 
-const todoItem = document.getElementById('todo');
-const doneItem = document.getElementById("done");
+const list_project = document.getElementById('list_project');
 const task_project = document.getElementById("task_project");
 
 // menampilkan data
@@ -79,66 +78,39 @@ window.onload = function () {
     if (!accessToken) {
         window.location.href = "../auth/login";
     }
-    task_by_project();
-    pilihproject();
-    current_project();
-    pilih_project_edit();
+
+    data_project();
 }
 
 // fungsi untuk menampilkan option project berdasarkan user
-function pilihproject(){
+// function Pilih Project(){
+//     const xhr = new XMLHttpRequest();
+//     const url = API_HOST + "/projects";
+
+//     xhr.open("GET", url, true);
+//     xhr.setRequestHeader(
+//         "Authorization",
+//         `Bearer ${localStorage.getItem("access_token")}`
+//     );
+
+//     xhr.onreadystatechange = function(){
+//         if(this.readyState == 4 && this.status == 200){
+//             const project = JSON.parse(this.response);
+
+//             project["data"].forEach((task) => {
+//                 const option = document.createElement("option");
+//                 option.text = task.title;
+//                 option.value = task.project_id;
+//                 task_project.appendChild(option);
+//             });
+//         }
+//     };
+//     return xhr.send();
+// }
+
+function data_project(){
     const xhr = new XMLHttpRequest();
     const url = API_HOST + "/projects";
-
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader(
-        "Authorization",
-        `Bearer ${localStorage.getItem("access_token")}`
-    );
-
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            const project = JSON.parse(this.response);
-
-            project["data"].forEach((task) => {
-                const option = document.createElement("option");
-                option.text = task.title;
-                option.value = task.project_id;
-                task_project.appendChild(option);
-            });
-        }
-    };
-    return xhr.send();
-}
-
-function current_project(){
-
-    const xhr = new XMLHttpRequest();
-    const url = API_HOST + "/projects/current_project";
-
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader(
-        "Authorization",
-        `Bearer ${localStorage.getItem("access_token")}`
-    );
-
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            const project = JSON.parse(this.response);
-            project["data"].forEach((task) => {
-                task_project.value = task.project_id
-            });
-        }
-    };
-    return xhr.send();
-}
-
-function task_by_project(){
-    // ajax call
-    const project = document.getElementById("task_project").value;
-    const xhr = new XMLHttpRequest();
-    console.log(project);
-    const url = API_HOST + "/tasks";
 
     xhr.open("get", url, true);
     xhr.setRequestHeader(
@@ -149,9 +121,9 @@ function task_by_project(){
         if (this.readyState == 4 && this.status == 200) {
             // check data apakah sudah ada di local storage, 
             // harus di jsonparse, karena semua data yg disimpan di local storage bentuknya string, makanya harus di parse agar kembali ke bentuknya aslinya
-            const tasks = JSON.parse(this.response);
+            const projects = JSON.parse(this.response);
 
-            tasks["data"].forEach((task) => {
+            projects["data"].forEach((project) => {
                 
                 // render ke html
                 let article = document.createElement('article');
@@ -160,56 +132,37 @@ function task_by_project(){
                 let badgeProject = document.createElement('span');
                 let p = document.createElement("p");
                 let h4 = document.createElement("h4");
-                h4.appendChild(document.createTextNode(task.title));
-                h4.setAttribute("id",task.task_id);
-                p.appendChild(document.createTextNode(task.description));
+                h4.appendChild(document.createTextNode(project.title));
+                h4.setAttribute("id",project.project_id);
+                p.appendChild(document.createTextNode(project.description));
 
                 article.setAttribute("class", 'border p-3 mt-3');
-                article.setAttribute("ondragstart", 'drag(event)');
-                article.setAttribute("draggable", 'true');
-                article.setAttribute("id", task.task_id);
+                article.setAttribute("id", project.project_id);
 
                 badgeDelete.setAttribute('href', "#");
                 badgeDelete.setAttribute('class', "badge bg-danger");
                 badgeDelete.setAttribute('style', "text-decoration:none");
-                badgeDelete.setAttribute('data-id', task.task_id);
+                badgeDelete.setAttribute('data-id', project.project_id);
                 badgeDelete.setAttribute("data-bs-toggle", 'modal');
                 badgeDelete.setAttribute("data-bs-target", '#myModalDelete');
 
                 badgeEdit.setAttribute('href', "#");
                 badgeEdit.setAttribute('class', "mx-1 badge bg-info");
                 badgeEdit.setAttribute('style', "text-decoration:none");
-                badgeEdit.setAttribute('data-id', task.task_id);
-                badgeEdit.setAttribute("data-title", task.title);
-                badgeEdit.setAttribute("data-desc", task.description);
+                badgeEdit.setAttribute('data-id', project.project_id);
+                badgeEdit.setAttribute("data-title", project.title);
+                badgeEdit.setAttribute("data-desc", project.description);
                 badgeEdit.setAttribute("data-bs-toggle", 'modal');
                 badgeEdit.setAttribute("data-bs-target", '#myModalEdit');
 
-                badgeProject.setAttribute('class', "float-end badge bg-primary");
-                badgeProject.setAttribute('style', "text-align: right");
-                badgeProject.setAttribute("data-id", task.project_id);
-
-                article.appendChild(badgeProject);
                 article.appendChild(h4);
                 article.appendChild(p);
                 article.appendChild(badgeEdit);
                 article.appendChild(badgeDelete);
                 badgeDelete.appendChild(document.createTextNode("Delete"));
                 badgeEdit.appendChild(document.createTextNode("Edit"));
-                badgeProject.appendChild(document.createTextNode(task.project_title));
 
-                // untuk value option saat menambahkan task
-                // const option = document.createElement("option");
-                // option.text = task.project_title;
-                // option.value = task.project_id;
-                // pilih_project.appendChild(option);
-
-                if(task.status == true){
-                    article.setAttribute("style", "text-decoration: line-through")
-                    doneItem.appendChild(article);
-                } else {
-                    todoItem.appendChild(article);
-                }
+                list_project.appendChild(article);
             });
         }
     }
@@ -251,11 +204,10 @@ addForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
     const xhr = new XMLHttpRequest();
-    const url = API_HOST + "/tasks";
+    const url = API_HOST + "/projects";
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
-    const project_id = document.getElementById('pilih_project').value;
 
     // konfigurasi toast
     const toastAdd = document.getElementById('liveToastAdd');
@@ -271,15 +223,9 @@ addForm.addEventListener("submit", function(e) {
         toastBodyAdd.innerHTML = "Isian deskripsi tidak boleh kosong";
         toast.show();
     }
-    if(project_id == ""){
-        toastBodyAdd.innerHTML = "Isian Pilih Project tidak boleh kosong";
-        toast.show();
-    }
-
     let new_data = JSON.stringify({
         title:title,
-        description:description,
-        project_id:project_id
+        description:description
     });
 
     xhr.open("POST", url, true);
@@ -311,7 +257,7 @@ const modalEdit = document.getElementById("myModalEdit");
 modalEdit.addEventListener("show.bs.modal",function(event) {
     let dataId = event.relatedTarget.attributes["data-id"];
     const xhr = new XMLHttpRequest();
-    const url = API_HOST + "/tasks/"+ dataId.value;
+    const url = API_HOST + "/projects/"+ dataId.value;
     // check apakah datanya sudah ada atau belum
 
     // 1. ngambil htmlnya
@@ -321,17 +267,13 @@ modalEdit.addEventListener("show.bs.modal",function(event) {
     xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
             // ambil datanya dulu
-            const tasks = JSON.parse(this.response);
+            const data = JSON.parse(this.response);
             const oldTitle = document.getElementById('edit-title');
-            const oldProject = document.getElementById('edit-project');
-            console.log('Sebelum:'+oldProject)
             const oldDesc = document.getElementById('edit-description');
             // 2. assign old value to form
-            oldTitle.value = tasks.data.title;
-            oldProject.value = tasks.data.project_id;
-            oldDesc.value = tasks.data.description;
-            console.log('Sesudah:'+oldProject)
-            console.log(tasks.data.project_id)
+            oldTitle.value = data.data.title;
+            oldDesc.value = data.data.description;
+            console.log(data.title);
         } else {
             console.log(this.response);
         }
@@ -343,7 +285,7 @@ modalEdit.addEventListener("show.bs.modal",function(event) {
         event.preventDefault();
 
         const xhr = new XMLHttpRequest();
-        const url = API_HOST + "/tasks/"+ dataId.value;
+        const url = API_HOST + "/projects/"+ dataId.value;
         // check apakah datanya sudah ada atau belum
 
         let newTitle = document.getElementById('edit-title').value;
@@ -396,7 +338,7 @@ modalDelete.addEventListener("show.bs.modal", (event) => {
         event.preventDefault();
 
         let xhr= new XMLHttpRequest();
-        let url = API_HOST+"/tasks/"+dataId.value;
+        let url = API_HOST+"/projects/"+dataId.value;
         // localStorage.setItem("data", JSON.stringify(diffTask));
         xhr.open("DELETE", url, true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=utf-8");

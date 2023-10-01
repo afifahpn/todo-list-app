@@ -3,15 +3,6 @@
 {% block content %}
 
   <section class="container mt-3 min-vh-100" id="task" data-bs-spy="scroll">
-	<div class="row">
-		<h3 class="current_project col-md-2"></h3>
-		  <div class="col-md-2 ms-auto">
-			<select class="form-select" id="task_project">
-			  <option>PIlih Project</option>
-			</select>
-		  </div>
-		</div>
-	  </div>
     <!-- bagian toast -->
       <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
           <div class="toast-container p-3 top-0 start-0 " id="toastPlacement">
@@ -22,14 +13,11 @@
           </div>
       </div>
       <!-- end bagian toast -->
-    <div class="row mt-5">
+    <div class="mt-5">
         <div id="alert-loc">
         </div>
-      <div class="col border p-3" ondrop="drop(event)" ondragover="allowDrop(event)" id="todo">
-        <h2>Todo</h2>
-      </div>
-      <div class="col border p-3 offset-2" ondrop="drop(event)" ondragover="allowDrop(event)" id="done">
-        <h2>Done</h2>
+      <div class="col border p-3" id="list_project">
+        <h2>List Project</h2>
       </div>
     </div>
   </section>
@@ -51,7 +39,7 @@
         <!-- end bagian toast -->
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Add New Task
+            Add New Project
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -60,12 +48,6 @@
             <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">Judul</span>
               <input type="text" class="form-control" id="title">
-            </div>
-            <div class="input-group flex-nowrap">
-              <span class="input-group-text" id="addon-wrapping">Pilih Project</span>
-              <select class="form-select" id="pilih_project">
-                <option>PIlih Project</option>
-              </select>
             </div>
             <div class="input-group flex-nowrap mt-2">
               <span class="input-group-text" id="addon-wrapping">Deskripsi</span>
@@ -100,7 +82,7 @@
         <!-- end bagian toast -->
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Edit Task
+            Edit Project
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -109,12 +91,6 @@
             <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">Judul</span>
               <input type="text" class="form-control" id="edit-title">
-            </div>
-            <div class="input-group flex-nowrap">
-              <span class="input-group-text" id="addon-wrapping">Pilih Project</span>
-              <select class="form-select" id="edit-project">
-                <option selected>PIlih Project</option>
-              </select>
             </div>
             <div class="input-group flex-nowrap mt-2">
               <span class="input-group-text" id="addon-wrapping">Deskripsi</span>

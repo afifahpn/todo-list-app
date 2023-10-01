@@ -41,7 +41,7 @@ function updateStatus(id, status){
     xhr.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
             const response = JSON.parse(this.response);
-            console.log(response);
+            // console.log(response);
             location.reload();
         }
     };
@@ -70,7 +70,8 @@ function checkStatus(id){
 
 const todoItem = document.getElementById('todo');
 const doneItem = document.getElementById("done");
-// const pilih_project = document.getElementById("pilih_project");
+const task_project = document.getElementById("task_project");
+
 
 // menampilkan data
 window.onload = function () {
@@ -79,94 +80,245 @@ window.onload = function () {
     if (!accessToken) {
         window.location.href = "../auth/login";
     }
+
+    // current_project();
+    
     data_task();
+    
+    // task_by_project()
     pilih_project();
+    pilih_project_add();
     pilih_project_edit();
+}
+
+function current_project(){
+    const xhr = new XMLHttpRequest();
+    const url = API_HOST + "/projects/current_project";
+
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access_token")}`
+    );
+
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            const data = JSON.parse(this.response);
+            task_project.value = data.data.project_id;
+            console.log(task.project_id);
+        }
+    };
+    return xhr.send();
 }
 
 function data_task(){
     // ajax call
-    const xhr = new XMLHttpRequest();
-    const url = API_HOST + "/tasks";
+    const task_project_value = task_project.value;
+    if(task_project_value == 'Pilih Project'){
+        const url = API_HOST + "/tasks/";
 
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader(
-        "Authorization", 
-        `Bearer ${localStorage.getItem('access_token')}`);
-    // ngecek datanya dapet atau tidak
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            // check data apakah sudah ada di local storage, 
-            // harus di jsonparse, karena semua data yg disimpan di local storage bentuknya string, makanya harus di parse agar kembali ke bentuknya aslinya
-            const tasks = JSON.parse(this.response);
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.setRequestHeader(
+            "Authorization", 
+            `Bearer ${localStorage.getItem('access_token')}`);
+        // ngecek datanya dapet atau tidak
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // check data apakah sudah ada di local storage, 
+                // harus di jsonparse, karena semua data yg disimpan di local storage bentuknya string, makanya harus di parse agar kembali ke bentuknya aslinya
+                const tasks = JSON.parse(this.response);
 
-            tasks["data"].forEach((task) => {
-                // render ke html
-                let article = document.createElement('article');
-                let badgeDelete = document.createElement('a');
-                let badgeEdit = document.createElement('a');
-                let badgeProject = document.createElement('span');
-                let p = document.createElement("p");
-                let h4 = document.createElement("h4");
-                h4.appendChild(document.createTextNode(task.title));
-                h4.setAttribute("id",task.task_id);
-                p.appendChild(document.createTextNode(task.description));
+                tasks["data"].forEach((task) => {
+                    // render ke html
+                    let article = document.createElement('article');
+                    let badgeDelete = document.createElement('a');
+                    let badgeEdit = document.createElement('a');
+                    let badgeProject = document.createElement('span');
+                    let p = document.createElement("p");
+                    let h4 = document.createElement("h4");
+                    h4.appendChild(document.createTextNode(task.title));
+                    h4.setAttribute("id",task.task_id);
+                    p.appendChild(document.createTextNode(task.description));
 
-                article.setAttribute("class", 'border p-3 mt-3');
-                article.setAttribute("ondragstart", 'drag(event)');
-                article.setAttribute("draggable", 'true');
-                article.setAttribute("id", task.task_id);
+                    article.setAttribute("class", 'border p-3 mt-3');
+                    article.setAttribute("ondragstart", 'drag(event)');
+                    article.setAttribute("draggable", 'true');
+                    article.setAttribute("id", task.task_id);
 
-                badgeDelete.setAttribute('href', "#");
-                badgeDelete.setAttribute('class', "badge bg-danger");
-                badgeDelete.setAttribute('style', "text-decoration:none");
-                badgeDelete.setAttribute('data-id', task.task_id);
-                badgeDelete.setAttribute("data-bs-toggle", 'modal');
-                badgeDelete.setAttribute("data-bs-target", '#myModalDelete');
+                    badgeDelete.setAttribute('href', "#");
+                    badgeDelete.setAttribute('class', "badge bg-danger");
+                    badgeDelete.setAttribute('style', "text-decoration:none");
+                    badgeDelete.setAttribute('data-id', task.task_id);
+                    badgeDelete.setAttribute("data-bs-toggle", 'modal');
+                    badgeDelete.setAttribute("data-bs-target", '#myModalDelete');
 
-                badgeEdit.setAttribute('href', "#");
-                badgeEdit.setAttribute('class', "mx-1 badge bg-warning");
-                badgeEdit.setAttribute('style', "text-decoration:none; color:black;");
-                badgeEdit.setAttribute('data-id', task.task_id);
-                badgeEdit.setAttribute("data-title", task.title);
-                badgeEdit.setAttribute("data-desc", task.description);
-                badgeEdit.setAttribute("data-bs-toggle", 'modal');
-                badgeEdit.setAttribute("data-bs-target", '#myModalEdit');
+                    badgeEdit.setAttribute('href', "#");
+                    badgeEdit.setAttribute('class', "mx-1 badge bg-warning");
+                    badgeEdit.setAttribute('style', "text-decoration:none; color:black;");
+                    badgeEdit.setAttribute('data-id', task.task_id);
+                    badgeEdit.setAttribute("data-title", task.title);
+                    badgeEdit.setAttribute("data-desc", task.description);
+                    badgeEdit.setAttribute("data-bs-toggle", 'modal');
+                    badgeEdit.setAttribute("data-bs-target", '#myModalEdit');
 
-                badgeProject.setAttribute('class', "float-end badge bg-primary");
-                badgeProject.setAttribute('style', "text-align: right");
-                badgeProject.setAttribute("data-id", task.project_id);
+                    badgeProject.setAttribute('class', "float-end badge bg-primary");
+                    badgeProject.setAttribute('style', "text-align: right");
+                    badgeProject.setAttribute("data-id", task.project_id);
 
-                article.appendChild(badgeProject);
-                article.appendChild(h4);
-                article.appendChild(p);
-                article.appendChild(badgeEdit);
-                article.appendChild(badgeDelete);
-                badgeDelete.appendChild(document.createTextNode("Delete"));
-                badgeEdit.appendChild(document.createTextNode("Edit"));
-                badgeProject.appendChild(document.createTextNode(task.project_title));
+                    article.appendChild(badgeProject);
+                    article.appendChild(h4);
+                    article.appendChild(p);
+                    article.appendChild(badgeEdit);
+                    article.appendChild(badgeDelete);
+                    badgeDelete.appendChild(document.createTextNode("Delete"));
+                    badgeEdit.appendChild(document.createTextNode("Edit"));
+                    badgeProject.appendChild(document.createTextNode(task.project_title));
 
-                // untuk value option saat menambahkan task
-                // const option = document.createElement("option");
-                // option.text = task.project_title;
-                // option.value = task.project_id;
-                // pilih_project.appendChild(option);
+                    // untuk value option saat menambahkan task
+                    // const option = document.createElement("option");
+                    // option.text = task.project_title;
+                    // option.value = task.project_id;
+                    // pilih_project.appendChild(option);
 
-                if(task.status == true){
-                    article.setAttribute("style", "text-decoration: line-through")
-                    doneItem.appendChild(article);
-                } else {
-                    todoItem.appendChild(article);
-                }
-            });
+                    if(task.status == true){
+                        article.setAttribute("style", "text-decoration: line-through")
+                        doneItem.appendChild(article);
+                    } else {
+                        todoItem.appendChild(article);
+                    }
+                });
+            }
         }
-    }
-    // kirim request
-    xhr.send();
+        // kirim request
+        xhr.send();
+    } else {
+        while(todoItem.firstChild){
+            todoItem.removeChild(todoItem.firstChild)
+        }
+        while(doneItem.firstChild){
+            doneItem.removeChild(doneItem.firstChild)
+        }
+        const url = API_HOST + "/tasks/project/" + task_project.value;
+        
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.setRequestHeader(
+            "Authorization", 
+            `Bearer ${localStorage.getItem('access_token')}`);
+        // ngecek datanya dapet atau tidak
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // check data apakah sudah ada di local storage, 
+                // harus di jsonparse, karena semua data yg disimpan di local storage bentuknya string, makanya harus di parse agar kembali ke bentuknya aslinya
+                const tasks = JSON.parse(this.response);
+                
+                tasks["data"].forEach((task) => {
+                    // render ke html
+                    article = document.getElementById('article');
+
+                    const article_new = document.createElement('article');
+                    let badgeDelete = document.createElement('a');
+                    let badgeEdit = document.createElement('a');
+                    let badgeProject = document.createElement('span');
+                    let p = document.createElement("p");
+                    let h4 = document.createElement("h4");
+                    h4.appendChild(document.createTextNode(task.title));
+                    h4.setAttribute("id",task.task_id);
+                    p.appendChild(document.createTextNode(task.description));
+
+                    article_new.setAttribute("class", 'border p-3 mt-3');
+                    article_new.setAttribute("ondragstart", 'drag(event)');
+                    article_new.setAttribute("draggable", 'true');
+                    article_new.setAttribute("id", task.task_id);
+
+                    badgeDelete.setAttribute('href', "#");
+                    badgeDelete.setAttribute('class', "badge bg-danger");
+                    badgeDelete.setAttribute('style', "text-decoration:none");
+                    badgeDelete.setAttribute('data-id', task.task_id);
+                    badgeDelete.setAttribute("data-bs-toggle", 'modal');
+                    badgeDelete.setAttribute("data-bs-target", '#myModalDelete');
+
+                    badgeEdit.setAttribute('href', "#");
+                    badgeEdit.setAttribute('class', "mx-1 badge bg-warning");
+                    badgeEdit.setAttribute('style', "text-decoration:none; color:black;");
+                    badgeEdit.setAttribute('data-id', task.task_id);
+                    badgeEdit.setAttribute("data-title", task.title);
+                    badgeEdit.setAttribute("data-desc", task.description);
+                    badgeEdit.setAttribute("data-bs-toggle", 'modal');
+                    badgeEdit.setAttribute("data-bs-target", '#myModalEdit');
+
+                    badgeProject.setAttribute('class', "float-end badge bg-primary");
+                    badgeProject.setAttribute('style', "text-align: right");
+                    badgeProject.setAttribute("data-id", task.project_id);
+
+                    article_new.appendChild(badgeProject);
+                    article_new.appendChild(h4);
+                    article_new.appendChild(p);
+                    article_new.appendChild(badgeEdit);
+                    article_new.appendChild(badgeDelete);
+                    badgeDelete.appendChild(document.createTextNode("Delete"));
+                    badgeEdit.appendChild(document.createTextNode("Edit"));
+                    badgeProject.appendChild(document.createTextNode(task.project_title));
+
+                    // untuk value option saat menambahkan task
+                    // const option = document.createElement("option");
+                    // option.text = task.project_title;
+                    // option.value = task.project_id;
+                    // pilih_project.appendChild(option);
+                    // article.replaceWith(article_new);
+
+                    if(task.status == true){
+                        article_new.setAttribute("style", "text-decoration: line-through")
+                        doneItem.appendChild(article_new);
+                    } else {
+                        todoItem.appendChild(article_new);
+                    }
+                });
+            }
+        }
+        // kirim request
+        xhr.send();
+        }
+
+        
+
+        console.log(task_project_value);
+}
+
+function task_by_project(){
+    // ajax call
+    
 }
 
 // fungsi untuk menampilkan option project berdasarkan user
 function pilih_project(){
+    const xhr = new XMLHttpRequest();
+    const url = API_HOST + "/projects";
+
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("access_token")}`
+    );
+
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            const project = JSON.parse(this.response);
+
+            project["data"].forEach((task) => {
+                const option = document.createElement("option");
+                option.text = task.title;
+                option.value = task.project_id;
+                task_project.appendChild(option);
+            });
+        }
+    };
+    return xhr.send();
+}
+
+function pilih_project_add(){
     const pilih_project = document.getElementById("pilih_project");
 
     const xhr = new XMLHttpRequest();
@@ -321,6 +473,7 @@ modalEdit.addEventListener("show.bs.modal",function(event) {
         // check apakah datanya sudah ada atau belum
 
         let newTitle = document.getElementById('edit-title').value;
+        let newProject = document.getElementById('edit-project').value;
         let newDesc = document.getElementById('edit-description').value;
 
          // konfigurasi toast
@@ -329,14 +482,15 @@ modalEdit.addEventListener("show.bs.modal",function(event) {
         const toast = new bootstrap.Toast(toastEdit);
 
         // validasi input
-        if (newTitle == "" || newDesc == ""){
+        if (newTitle == "" || newDesc == "" || newProject == "Pilih Project"){
             toastBodyEdit.innerHTML = "Tidak boleh ada data yang kosong";
             toast.show();
         }
 
         let newTask = JSON.stringify({
             title: newTitle,
-            description: newDesc
+            description: newDesc,
+            project_id: newProject
         });
 
         xhr.open("PUT", url, true);
