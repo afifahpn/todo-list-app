@@ -68,5 +68,6 @@ Membuat aplikasi Todo List yang dapat:
     ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/0ec64f20-0158-499b-ba14-c69e524605f0)
 
 # Future Work
-1. 
+1. Karyawan dari perusahaan tersebut tidak usah mendaftar tapi langsung login karena terhubung oleh database karyawan perusahaan
+2. Dapat kolaborasi dengan tim, agar project dapat cepat terdeliver
 
