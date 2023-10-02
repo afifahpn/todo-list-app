@@ -36,39 +36,37 @@ Membuat aplikasi Todo List yang dapat:
 # Hasil test Case
 1. Halaman Login
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/b0420c8c-b97b-4efe-9c65-b5505d79cbaf)
-2. Halaman Home
+2. Halaman Registrasi
+   ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/26c7eb89-ff78-46df-a45e-fa0ad756d188)
+   ![registrasi](https://github.com/afifahpn/todo-list-app/assets/55918778/284ffe22-f8c9-4796-b0b2-d09b08442928)
+3. Halaman Home
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/6dcac616-2995-46d8-b20c-e7738bda7619)
-3. Menambahkan Task Baru
+4. Menambahkan Task Baru
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/1d91d71a-8c26-4895-9694-0316a69c10a8)
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/f0597a82-5f1c-4ab6-931a-7819338cd6c6)
-4. Mengedit Task
+5. Mengedit Task
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/ddc07d4c-ca4c-4ce9-9002-6a282609acc6)
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/03db2e74-5d6d-4257-9a6f-5d4221edd83b)
-5. menghapus Task
+6. menghapus Task
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/568fa4e7-7798-4965-bf76-6be5019fa0a2)
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/68f7ef14-683c-4349-aaf2-19bd3b1fc57c)
-6. Mengubah Status Task
+7. Mengubah Status Task
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/4ddf1aab-3ba3-4b4e-b297-e5676ccc8e55)
-7. Menampilkan Task Berdasarkan Project
+8. Menampilkan Task Berdasarkan Project
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/e6530746-6f30-49f8-9988-4330c537ddd0)
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/bb284fbc-2b7b-4555-a675-99785d6c0b06)
-8. Halaman Project
+9. Halaman Project
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/e0a73506-96eb-41e2-adc3-3cfc18c6b408)
-9. Membuat Project Baru
+10. Membuat Project Baru
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/0392c72b-1042-411c-90c5-b4820fcf26f6)
    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/ba5b42df-384d-4b38-bd8d-e14d4bc2990c)
 11. mengedit project
     ![Untitled](https://github.com/afifahpn/todo-list-app/assets/55918778/0f635643-5844-4085-a28e-82a02dd2f6e5)
     ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/f89c79f1-f974-437c-8be6-4a6f7778144e)
 12. Menghapus Project
-    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/78778a5a-7de3-48e4-bf36-d38a1176c874)
-
-
-
-
-
-
-
-
+    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/3793370a-e415-4452-a167-d9d201b7edf5)
+    ![image](https://github.com/afifahpn/todo-list-app/assets/55918778/0ec64f20-0158-499b-ba14-c69e524605f0)
 
 # Future Work
+1. 
+
