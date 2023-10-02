@@ -3,8 +3,6 @@ from app.extension import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.project import projectbp
 from app.models.project import Projects
-from app.models.user import Users
-from app.models.task import Tasks
 
 @projectbp.route('/', methods=['GET'], strict_slashes = False)
 @jwt_required(locations=['headers'])
@@ -29,21 +27,6 @@ def get_project_by_id(project_id):
     current_user_id = get_jwt_identity()
 
     projects = Projects.query.filter_by(project_id=project_id).first()
-
-    project =projects.serialize()
-
-    return jsonify({
-        "success": True,
-        "data": project
-    }),200
-
-# current_project
-@projectbp.route('/current_project', methods=['GET'], strict_slashes = False)
-@jwt_required(locations=['headers'])
-def current_project():
-    current_user_id = get_jwt_identity()
-    
-    projects = Projects.query.filter_by(user_id=current_user_id).order_by(Projects.project_id.desc()).first()
 
     project =projects.serialize()
 

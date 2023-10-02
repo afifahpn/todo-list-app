@@ -84,37 +84,21 @@ window.onload = function () {
     // current_project();
     
     data_task();
-    
-    // task_by_project()
     pilih_project();
     pilih_project_add();
     pilih_project_edit();
-}
-
-function current_project(){
-    const xhr = new XMLHttpRequest();
-    const url = API_HOST + "/projects/current_project";
-
-    xhr.open("GET", url, true);
-    xhr.setRequestHeader(
-        "Authorization",
-        `Bearer ${localStorage.getItem("access_token")}`
-    );
-
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            const data = JSON.parse(this.response);
-            task_project.value = data.data.project_id;
-            console.log(task.project_id);
-        }
-    };
-    return xhr.send();
 }
 
 function data_task(){
     // ajax call
     const task_project_value = task_project.value;
     if(task_project_value == 'Pilih Project'){
+        while(todoItem.firstChild){
+            todoItem.removeChild(todoItem.firstChild)
+        }
+        while(doneItem.firstChild){
+            doneItem.removeChild(doneItem.firstChild)
+        }
         const url = API_HOST + "/tasks/";
 
         const xhr = new XMLHttpRequest();
@@ -262,13 +246,6 @@ function data_task(){
                     badgeEdit.appendChild(document.createTextNode("Edit"));
                     badgeProject.appendChild(document.createTextNode(task.project_title));
 
-                    // untuk value option saat menambahkan task
-                    // const option = document.createElement("option");
-                    // option.text = task.project_title;
-                    // option.value = task.project_id;
-                    // pilih_project.appendChild(option);
-                    // article.replaceWith(article_new);
-
                     if(task.status == true){
                         article_new.setAttribute("style", "text-decoration: line-through")
                         doneItem.appendChild(article_new);
@@ -280,16 +257,7 @@ function data_task(){
         }
         // kirim request
         xhr.send();
-        }
-
-        
-
-        console.log(task_project_value);
-}
-
-function task_by_project(){
-    // ajax call
-    
+    }
 }
 
 // fungsi untuk menampilkan option project berdasarkan user
@@ -562,17 +530,46 @@ logout.addEventListener("click", function (e) {
         `Bearer ${localStorage.getItem('access_token')}`
     );
     xhr.onreadystatechange = function () {
+        if(this.response == "Token has expired"){
+            localStorage.removeItem("access_token");
+            window.location.href = "../auth/login";
+        }
+
         if (this.readyState == 4 && this.status == 200) {
             localStorage.removeItem("access_token");
             window.location.href = "../auth/login";
         } else {
-            alert(this.response);
+            // alert("Ada Kesalahan");
+            // alert(this.response);
+            // if(this.response == "Token has expired"){
+                
+            // }
+            localStorage.removeItem("access_token");
+            window.location.href = "../auth/login";
         }
     };
     xhr.send();
 
     //remove token from locasStorage
 });
+
+//FUNGSI UNTUK MEREFRESH TOKEN
+function refreshToken(){
+    let xhr = new XMLHttpRequest();
+    let url = "http://127.0.0.1:5000/api/auth/refresh";
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Authorization", `Bearer ${localStorage.getItem('access_token')}`);
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.response)
+            localStorage.setItem("access_token", response.access_token)
+        }
+    };
+    xhr.send();
+}
+// run refresh token every 15 minutes
+setInterval(refreshToken, 900000)
 
 //fugnsi untuk jam
 let p = document.getElementById("jam")

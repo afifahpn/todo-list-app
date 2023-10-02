@@ -69,7 +69,6 @@ function checkStatus(id){
 }
 
 const list_project = document.getElementById('list_project');
-const task_project = document.getElementById("task_project");
 
 // menampilkan data
 window.onload = function () {
@@ -83,30 +82,6 @@ window.onload = function () {
 }
 
 // fungsi untuk menampilkan option project berdasarkan user
-// function Pilih Project(){
-//     const xhr = new XMLHttpRequest();
-//     const url = API_HOST + "/projects";
-
-//     xhr.open("GET", url, true);
-//     xhr.setRequestHeader(
-//         "Authorization",
-//         `Bearer ${localStorage.getItem("access_token")}`
-//     );
-
-//     xhr.onreadystatechange = function(){
-//         if(this.readyState == 4 && this.status == 200){
-//             const project = JSON.parse(this.response);
-
-//             project["data"].forEach((task) => {
-//                 const option = document.createElement("option");
-//                 option.text = task.title;
-//                 option.value = task.project_id;
-//                 task_project.appendChild(option);
-//             });
-//         }
-//     };
-//     return xhr.send();
-// }
 
 function data_project(){
     const xhr = new XMLHttpRequest();
